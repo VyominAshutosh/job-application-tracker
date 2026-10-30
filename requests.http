@@ -1,0 +1,54 @@
+### Open this file in IntelliJ and click the green arrow next to each request.
+
+### 1. Add an application
+POST http://localhost:8080/api/applications
+Content-Type: application/json
+
+{
+  "company": "LTIMindtree",
+  "role": "Graduate Engineer Trainee",
+  "location": "Hyderabad",
+  "source": "Campus",
+  "appliedOn": "2026-10-04",
+  "interviewDate": "2026-11-05",
+  "notes": "Online test on 4 Oct"
+}
+
+### 2. List everything
+GET http://localhost:8080/api/applications
+
+### 3. Filter by stage
+GET http://localhost:8080/api/applications?status=APPLIED
+
+### 4. Search company or role
+GET http://localhost:8080/api/applications/search?q=mindtree
+
+### 5. Counts per stage
+GET http://localhost:8080/api/applications/stats
+
+### 6. One application
+GET http://localhost:8080/api/applications/1
+
+### 7. Legal move: APPLIED to ASSESSMENT  (200)
+PATCH http://localhost:8080/api/applications/1/status
+Content-Type: application/json
+
+{ "status": "ASSESSMENT" }
+
+### 8. Illegal move: skipping a stage  (409 Conflict)
+PATCH http://localhost:8080/api/applications/1/status
+Content-Type: application/json
+
+{ "status": "OFFER" }
+
+### 9. Validation failure  (400 with fieldErrors)
+POST http://localhost:8080/api/applications
+Content-Type: application/json
+
+{ "company": "", "role": "SDE" }
+
+### 10. Missing id  (404)
+GET http://localhost:8080/api/applications/9999
+
+### 11. Delete
+DELETE http://localhost:8080/api/applications/1
